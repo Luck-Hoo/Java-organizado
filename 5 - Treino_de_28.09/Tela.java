@@ -157,13 +157,24 @@ public class Tela {
         JButton buttonIgual = new JButton("=");
         gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 2;
         buttonIgual.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 resultado();
             }
         });
         frame.add(buttonIgual, gbc);
+
+        JButton buttonLimpar = new JButton("C");
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.gridwidth = 1;
+        buttonLimpar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                limpar();
+            }
+        });
+        frame.add(buttonLimpar, gbc);
 
         JButton buttonDivi = new JButton("/");
         gbc.gridx = 3;
@@ -187,7 +198,7 @@ public class Tela {
     static void resultado() {
         int result = 0;
         String textoCorrente = textField.getText();
-        // char[] equacao = textoCorrente.toCharArray();
+        // char[] equacao = textoCorrente.toCharArray(); Tinha pensado nisso
         Stack<Character> pilCharacters = new Stack<>();
 
         // adiciona na colection
@@ -211,7 +222,7 @@ public class Tela {
             if (!Character.isDigit(c) || pilCharacters.isEmpty()) {
                 switch (operacao) {
                     case '+':
-                        result += valorAtual;
+                        result = valorAtual + result;
                         break;
                     case '-':
                         result -= valorAtual;
@@ -220,10 +231,13 @@ public class Tela {
                         result *= valorAtual;
                         break;
                     case '/':
-                        result /= valorAtual;
+                        result = valorAtual / result;
+                        System.out.println("O valor atual é" + valorAtual);
+                        System.out.println("O resultado é" + result);
                         break;
                 }
                 // Atualiza a operação e reinicializa o valorAtual
+
                 operacao = c;
                 valorAtual = 0;
             }
@@ -232,19 +246,8 @@ public class Tela {
         textField.setText(resultadoFinal);
     }
 
-    static void soma(int x, int y) {
-        int result = x + y;
-    }
-
-    static void sub(int x, int y) {
-        int result = x - y;
-    }
-
-    static void multi(int x, int y) {
-        int result = x * y;
-    }
-
-    static void divi(int x, int y) {
-        int result = x / y;
+    static void limpar() {
+        String newText = "";
+        textField.setText(newText);
     }
 }
