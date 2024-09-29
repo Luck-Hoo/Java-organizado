@@ -1,8 +1,38 @@
 import javax.swing.*;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.Stack;
+
+class RoundedButton extends JButton {
+    private int radius;
+
+    public RoundedButton(String label, int radius) {
+        super(label);
+        this.radius = radius;
+        setFocusPainted(false);
+        setContentAreaFilled(false);
+        setBorderPainted(false);
+        setForeground(Color.WHITE);
+        setFont(new Font("Arial", Font.PLAIN, 16));
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        if (getModel().isPressed()) {
+            g.setColor(getBackground().darker());
+        } else {
+            g.setColor(getBackground());
+        }
+        g.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+        super.paintComponent(g);
+    }
+
+    @Override
+    public void setBackground(Color color) {
+        super.setBackground(color);
+        repaint();
+    }
+}
 
 public class Tela {
     private static JTextField textField;
@@ -15,6 +45,7 @@ public class Tela {
         JFrame frame = new JFrame("Tela");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 500);
+        frame.getContentPane().setBackground(new Color(33, 33, 33));
         frame.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -25,11 +56,22 @@ public class Tela {
         gbc.fill = GridBagConstraints.BOTH; // O componente ocupa todo o espaço da célula
 
         textField = new JTextField("");
+        textField.setHorizontalAlignment(JTextField.RIGHT);
+        textField.setBackground(new Color(33, 33, 33));
+        textField.setForeground(Color.WHITE);
+        textField.setFont(new Font("Arial", Font.PLAIN, 36));
         gbc.gridwidth = 4;
         frame.add(textField, gbc);
 
+        // Cor comum para botões
+        Color buttonBackgroundColor = new Color(128, 128, 128);
+        Color buttonTextColor = Color.WHITE;
+
         // Primeira linha de botões
-        JButton button1 = new JButton("1");
+        RoundedButton button1 = new RoundedButton("1", 15);
+        button1.setBackground(buttonBackgroundColor);
+        button1.setForeground(buttonTextColor);
+        button1.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
@@ -38,10 +80,12 @@ public class Tela {
                 incrementarChar('1');
             }
         });
-
         frame.add(button1, gbc);
 
-        JButton button2 = new JButton("2");
+        RoundedButton button2 = new RoundedButton("2", 15);
+        button2.setBackground(buttonBackgroundColor);
+        button2.setForeground(buttonTextColor);
+        button2.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 1;
         gbc.gridy = 1;
         button2.addActionListener(new ActionListener() {
@@ -51,7 +95,10 @@ public class Tela {
         });
         frame.add(button2, gbc);
 
-        JButton button3 = new JButton("3");
+        RoundedButton button3 = new RoundedButton("3", 15);
+        button3.setBackground(buttonBackgroundColor);
+        button3.setForeground(buttonTextColor);
+        button3.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 2;
         gbc.gridy = 1;
         button3.addActionListener(new ActionListener() {
@@ -61,7 +108,10 @@ public class Tela {
         });
         frame.add(button3, gbc);
 
-        JButton buttonMais = new JButton("+");
+        RoundedButton buttonMais = new RoundedButton("+", 15);
+        buttonMais.setBackground(buttonBackgroundColor);
+        buttonMais.setForeground(buttonTextColor);
+        buttonMais.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 3;
         gbc.gridy = 1;
         buttonMais.addActionListener(new ActionListener() {
@@ -72,7 +122,10 @@ public class Tela {
         frame.add(buttonMais, gbc);
 
         // Segunda linha de botões
-        JButton button4 = new JButton("4");
+        RoundedButton button4 = new RoundedButton("4", 15);
+        button4.setBackground(buttonBackgroundColor);
+        button4.setForeground(buttonTextColor);
+        button4.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 0;
         gbc.gridy = 2;
         button4.addActionListener(new ActionListener() {
@@ -82,7 +135,10 @@ public class Tela {
         });
         frame.add(button4, gbc);
 
-        JButton button5 = new JButton("5");
+        RoundedButton button5 = new RoundedButton("5", 15);
+        button5.setBackground(buttonBackgroundColor);
+        button5.setForeground(buttonTextColor);
+        button5.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 1;
         gbc.gridy = 2;
         button5.addActionListener(new ActionListener() {
@@ -92,7 +148,10 @@ public class Tela {
         });
         frame.add(button5, gbc);
 
-        JButton button6 = new JButton("6");
+        RoundedButton button6 = new RoundedButton("6", 15);
+        button6.setBackground(buttonBackgroundColor);
+        button6.setForeground(buttonTextColor);
+        button6.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 2;
         gbc.gridy = 2;
         button6.addActionListener(new ActionListener() {
@@ -102,7 +161,10 @@ public class Tela {
         });
         frame.add(button6, gbc);
 
-        JButton buttonMenos = new JButton("-");
+        RoundedButton buttonMenos = new RoundedButton("-", 15);
+        buttonMenos.setBackground(buttonBackgroundColor);
+        buttonMenos.setForeground(buttonTextColor);
+        buttonMenos.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 3;
         gbc.gridy = 2;
         buttonMenos.addActionListener(new ActionListener() {
@@ -112,8 +174,11 @@ public class Tela {
         });
         frame.add(buttonMenos, gbc);
 
-        // Terceira Linha de botões
-        JButton button7 = new JButton("7");
+        // Terceira linha de botões
+        RoundedButton button7 = new RoundedButton("7", 15);
+        button7.setBackground(buttonBackgroundColor);
+        button7.setForeground(buttonTextColor);
+        button7.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 0;
         gbc.gridy = 3;
         button7.addActionListener(new ActionListener() {
@@ -123,7 +188,10 @@ public class Tela {
         });
         frame.add(button7, gbc);
 
-        JButton button8 = new JButton("8");
+        RoundedButton button8 = new RoundedButton("8", 15);
+        button8.setBackground(buttonBackgroundColor);
+        button8.setForeground(buttonTextColor);
+        button8.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 1;
         gbc.gridy = 3;
         button8.addActionListener(new ActionListener() {
@@ -133,7 +201,10 @@ public class Tela {
         });
         frame.add(button8, gbc);
 
-        JButton button9 = new JButton("9");
+        RoundedButton button9 = new RoundedButton("9", 15);
+        button9.setBackground(buttonBackgroundColor);
+        button9.setForeground(buttonTextColor);
+        button9.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 2;
         gbc.gridy = 3;
         button9.addActionListener(new ActionListener() {
@@ -143,7 +214,10 @@ public class Tela {
         });
         frame.add(button9, gbc);
 
-        JButton buttonMulti = new JButton("*");
+        RoundedButton buttonMulti = new RoundedButton("*", 15);
+        buttonMulti.setBackground(buttonBackgroundColor);
+        buttonMulti.setForeground(buttonTextColor);
+        buttonMulti.setFont(new Font("Arial", Font.PLAIN, 16));
         gbc.gridx = 3;
         gbc.gridy = 3;
         buttonMulti.addActionListener(new ActionListener() {
@@ -154,7 +228,9 @@ public class Tela {
         frame.add(buttonMulti, gbc);
 
         // Quarta linha de botões
-        JButton buttonIgual = new JButton("=");
+        RoundedButton buttonIgual = new RoundedButton("=", 15);
+        buttonIgual.setBackground(buttonBackgroundColor);
+        buttonIgual.setForeground(buttonTextColor);
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
@@ -165,7 +241,9 @@ public class Tela {
         });
         frame.add(buttonIgual, gbc);
 
-        JButton buttonLimpar = new JButton("C");
+        RoundedButton buttonLimpar = new RoundedButton("C", 15);
+        buttonLimpar.setBackground(buttonBackgroundColor);
+        buttonLimpar.setForeground(buttonTextColor);
         gbc.gridx = 2;
         gbc.gridy = 4;
         gbc.gridwidth = 1;
@@ -176,7 +254,9 @@ public class Tela {
         });
         frame.add(buttonLimpar, gbc);
 
-        JButton buttonDivi = new JButton("/");
+        RoundedButton buttonDivi = new RoundedButton("/", 15);
+        buttonDivi.setBackground(buttonBackgroundColor);
+        buttonDivi.setForeground(buttonTextColor);
         gbc.gridx = 3;
         gbc.gridy = 4;
         buttonDivi.addActionListener(new ActionListener() {
@@ -225,7 +305,7 @@ public class Tela {
                         result = valorAtual + result;
                         break;
                     case '-':
-                        result -= valorAtual;
+                        result = valorAtual - result;
                         break;
                     case '*':
                         result *= valorAtual;
