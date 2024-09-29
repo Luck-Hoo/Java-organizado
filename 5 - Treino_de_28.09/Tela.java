@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.*;
-import java.util.*;
+import java.util.Stack;
 
 public class Tela {
     private static JTextField textField;
@@ -187,29 +187,45 @@ public class Tela {
     static void resultado() {
         int result = 0;
         String textoCorrente = textField.getText();
-        char[] equacao = textoCorrente.toCharArray();
-        for (int i = 0; i < equacao.length; i++) {
-            switch (equacao[i]) {
-                // Adicione os casos que você precisa aqui
-                case '+':
-                    // lógica para o caso '1'
-                    break;
-                case '-':
-                    // lógica para o caso '2'
-                    break;
-                // Adicione mais casos conforme necessário
-                case '/':
-                    // lógica para o caso '2'
-                    break;
-                // Adicione mais casos conforme necessário
-                case '*':
-                    // lógica para o caso '2'
-                    break;
-                // Adicione mais casos conforme necessário
-                default:
-                    int numero = Character.getNumericValue(equacao[i]);
-                    result += numero;
-                    break;
+        // char[] equacao = textoCorrente.toCharArray();
+        Stack<Character> pilCharacters = new Stack<>();
+
+        // adiciona na colection
+        for (char c : textoCorrente.toCharArray()) {
+            pilCharacters.push(c);
+        }
+        // Variáveis auxiliares
+        int valorAtual = 0;
+        char operacao = '+';
+
+        // Processa a pilha
+        while (!pilCharacters.isEmpty()) {
+            char c = pilCharacters.pop();
+
+            // Se for um número, converte para inteiro
+            if (Character.isDigit(c)) {
+                valorAtual = Character.getNumericValue(c);
+            }
+
+            // Se for um operador, processa a operação anterior e define a nova
+            if (!Character.isDigit(c) || pilCharacters.isEmpty()) {
+                switch (operacao) {
+                    case '+':
+                        result += valorAtual;
+                        break;
+                    case '-':
+                        result -= valorAtual;
+                        break;
+                    case '*':
+                        result *= valorAtual;
+                        break;
+                    case '/':
+                        result /= valorAtual;
+                        break;
+                }
+                // Atualiza a operação e reinicializa o valorAtual
+                operacao = c;
+                valorAtual = 0;
             }
         }
         String resultadoFinal = String.valueOf(result);
