@@ -68,6 +68,6 @@ class AppTest {
     public void testResultadoComplexo() {
         App.textField.setText("3+6*2-4");
         App.resultado();
-        assertEquals("5", App.textField.getText());  // Verifica o valor calculado pela lógica atual
+        assertEquals("11", App.textField.getText());  // Verifica o valor calculado pela lógica atual
     }
 }
