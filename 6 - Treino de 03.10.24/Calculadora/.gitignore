@@ -1,0 +1,5 @@
+# Ignorar diretórios gerados
+.gradle/
+build/
+gradle/
+app/build
