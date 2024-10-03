@@ -281,53 +281,50 @@ public class App {
     // Teste123
     static void resultado() {
         int result = 0;
-        String textoCorrente = textField.getText();
-        // char[] equacao = textoCorrente.toCharArray(); Tinha pensado nisso
-        Stack<Character> pilCharacters = new Stack<>();
+int valorAtual = 0;
+char operacao = '+';
+String textoCorrente = textField.getText();
+Stack<Integer> pilhaNumeros = new Stack<>();
 
-        // adiciona na colection
-        for (char c : textoCorrente.toCharArray()) {
-            pilCharacters.push(c);
+for (int i = 0; i < textoCorrente.length(); i++) {
+    char c = textoCorrente.charAt(i);
+
+    // Se for um número, constrói o valorAtual
+    if (Character.isDigit(c)) {
+        valorAtual = valorAtual * 10 + Character.getNumericValue(c);
+    }
+
+    // Se for um operador ou for o último caractere, processa a operação
+    if (!Character.isDigit(c) || i == textoCorrente.length() - 1) {
+        switch (operacao) {
+            case '+':
+                pilhaNumeros.push(valorAtual);
+                break;
+            case '-':
+                pilhaNumeros.push(-valorAtual);
+                break;
+            case '*':
+                pilhaNumeros.push(pilhaNumeros.pop() * valorAtual);
+                break;
+            case '/':
+                pilhaNumeros.push(pilhaNumeros.pop() / valorAtual);
+                break;
         }
-        // Variáveis auxiliares
-        int valorAtual = 0;
-        char operacao = '+';
 
-        // Processa a pilha
-        while (!pilCharacters.isEmpty()) {
-            char c = pilCharacters.pop();
+        // Atualiza a operação e reinicializa o valorAtual
+        operacao = c;
+        valorAtual = 0;
+    }
+}
 
-            // Se for um número, converte para inteiro
-            if (Character.isDigit(c)) {
-                valorAtual = Character.getNumericValue(c);
-            }
+// Soma todos os valores da pilha
+while (!pilhaNumeros.isEmpty()) {
+    result += pilhaNumeros.pop();
+}
 
-            // Se for um operador, processa a operação anterior e define a nova
-            if (!Character.isDigit(c) || pilCharacters.isEmpty()) {
-                switch (operacao) {
-                    case '+':
-                        result = valorAtual + result;
-                        break;
-                    case '-':
-                        result = valorAtual - result;
-                        break;
-                    case '*':
-                        result *= valorAtual;
-                        break;
-                    case '/':
-                        result = valorAtual / result;
-                        //System.out.println("O valor atual é" + valorAtual);
-                        //System.out.println("O resultado é" + result);
-                        break;
-                }
-                // Atualiza a operação e reinicializa o valorAtual
+String resultadoFinal = String.valueOf(result);
+textField.setText(resultadoFinal);
 
-                operacao = c;
-                valorAtual = 0;
-            }
-        }
-        String resultadoFinal = String.valueOf(result);
-        textField.setText(resultadoFinal);
     }
 
     static void limpar() {
