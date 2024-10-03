@@ -278,7 +278,7 @@ public class App {
         String newText = textoCorrente + Character.toString(num);
         textField.setText(newText);
     }
-
+    // Teste123
     static void resultado() {
         int result = 0;
         String textoCorrente = textField.getText();
