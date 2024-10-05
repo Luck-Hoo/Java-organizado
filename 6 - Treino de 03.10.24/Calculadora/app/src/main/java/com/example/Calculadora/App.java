@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.util.Stack;
 
 class RoundedButton extends JButton {
+
     private int radius;
 
     public RoundedButton(String label, int radius) {
@@ -38,11 +39,14 @@ class RoundedButton extends JButton {
         repaint();
     }
 }
+
 public class App {
+
     public static JTextField textField;
 
     public static void main(String[] args) {
         criaTela();
+        JDBC.connectToDatabase();
     }
 
     static void criaTela() {
@@ -278,52 +282,54 @@ public class App {
         String newText = textoCorrente + Character.toString(num);
         textField.setText(newText);
     }
+
     // Teste123
     static void resultado() {
         int result = 0;
-int valorAtual = 0;
-char operacao = '+';
-String textoCorrente = textField.getText();
-Stack<Integer> pilhaNumeros = new Stack<>();
+        int valorAtual = 0;
+        char operacao = '+';
+        String textoCorrente = textField.getText();
+        JDBC.inserirValor(textoCorrente);
+        Stack<Integer> pilhaNumeros = new Stack<>();
 
-for (int i = 0; i < textoCorrente.length(); i++) {
-    char c = textoCorrente.charAt(i);
+        for (int i = 0; i < textoCorrente.length(); i++) {
+            char c = textoCorrente.charAt(i);
 
-    // Se for um número, constrói o valorAtual
-    if (Character.isDigit(c)) {
-        valorAtual = valorAtual * 10 + Character.getNumericValue(c);
-    }
+            // Se for um número, constrói o valorAtual
+            if (Character.isDigit(c)) {
+                valorAtual = valorAtual * 10 + Character.getNumericValue(c);
+            }
 
-    // Se for um operador ou for o último caractere, processa a operação
-    if (!Character.isDigit(c) || i == textoCorrente.length() - 1) {
-        switch (operacao) {
-            case '+':
-                pilhaNumeros.push(valorAtual);
-                break;
-            case '-':
-                pilhaNumeros.push(-valorAtual);
-                break;
-            case '*':
-                pilhaNumeros.push(pilhaNumeros.pop() * valorAtual);
-                break;
-            case '/':
-                pilhaNumeros.push(pilhaNumeros.pop() / valorAtual);
-                break;
+            // Se for um operador ou for o último caractere, processa a operação
+            if (!Character.isDigit(c) || i == textoCorrente.length() - 1) {
+                switch (operacao) {
+                    case '+':
+                        pilhaNumeros.push(valorAtual);
+                        break;
+                    case '-':
+                        pilhaNumeros.push(-valorAtual);
+                        break;
+                    case '*':
+                        pilhaNumeros.push(pilhaNumeros.pop() * valorAtual);
+                        break;
+                    case '/':
+                        pilhaNumeros.push(pilhaNumeros.pop() / valorAtual);
+                        break;
+                }
+
+                // Atualiza a operação e reinicializa o valorAtual
+                operacao = c;
+                valorAtual = 0;
+            }
         }
 
-        // Atualiza a operação e reinicializa o valorAtual
-        operacao = c;
-        valorAtual = 0;
-    }
-}
-
 // Soma todos os valores da pilha
-while (!pilhaNumeros.isEmpty()) {
-    result += pilhaNumeros.pop();
-}
+        while (!pilhaNumeros.isEmpty()) {
+            result += pilhaNumeros.pop();
+        }
 
-String resultadoFinal = String.valueOf(result);
-textField.setText(resultadoFinal);
+        String resultadoFinal = String.valueOf(result);
+        textField.setText(resultadoFinal);
 
     }
 
