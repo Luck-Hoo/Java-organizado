@@ -6,6 +6,7 @@ package com.example.Calculadora;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.Stack;
 
 class RoundedButton extends JButton {
@@ -43,10 +44,12 @@ class RoundedButton extends JButton {
 public class App {
 
     public static JTextField textField;
+    public static JTextField textField2;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         criaTela();
-        JDBC.connectToDatabase();
+        JDBC.connect();
+        registrosBD();
     }
 
     static void criaTela() {
@@ -68,8 +71,20 @@ public class App {
         textField.setBackground(new Color(33, 33, 33));
         textField.setForeground(Color.WHITE);
         textField.setFont(new Font("Arial", Font.PLAIN, 36));
-        gbc.gridwidth = 4;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
         frame.add(textField, gbc);
+        
+        textField2 = new JTextField("");
+        textField2.setHorizontalAlignment(JTextField.RIGHT);
+        textField2.setBackground(new Color(33, 33, 33));
+        textField2.setForeground(Color.WHITE);
+        textField2.setFont(new Font("Arial", Font.PLAIN, 36));
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        frame.add(textField2, gbc);
 
         // Cor comum para botões
         Color buttonBackgroundColor = new Color(128, 128, 128);
@@ -276,14 +291,18 @@ public class App {
 
         frame.setVisible(true);
     }
-
+    static void registrosBD() {
+        String newText2;
+        newText2 = JDBC.specifyData("calculos");
+        textField2.setText(newText2);
+    }
     static void incrementarChar(char num) {
         String textoCorrente = textField.getText();
         String newText = textoCorrente + Character.toString(num);
         textField.setText(newText);
     }
 
-    // Teste123
+    // Lógica da calculadora
     static void resultado() {
         int result = 0;
         int valorAtual = 0;
