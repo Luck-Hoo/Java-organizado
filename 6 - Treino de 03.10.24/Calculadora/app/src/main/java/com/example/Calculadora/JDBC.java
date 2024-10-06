@@ -30,9 +30,11 @@ public class JDBC {
     public static void inserirValor(String valor) {
         String query = "INSERT INTO calculos (calculosString) VALUES (?)"; // Ajuste conforme necessário
 
+        //AQUI É PREPARADA A CONEXAO E CHAMADA A INTERFACE STATMENT
         try (Connection connection = connect(); PreparedStatement statement = connection.prepareStatement(query)) {
-
+            //AQUI É TROCADO O VALOR DE ? NA QUERY PELO VALOR
             statement.setString(1, valor);
+            //AQUI EXECUTA A QUERY
             statement.executeUpdate();
             System.out.println("Valor inserido com sucesso: " + valor);
         } catch (SQLException e) {
@@ -47,13 +49,18 @@ public class JDBC {
         try (Connection connection = connect(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
 
             // Obter metadados para imprimir os nomes das colunas
+            // RESULTSET GUARDA O NUMERO DE COLUNAS
             int columnCount = resultSet.getMetaData().getColumnCount();
+            //PRECISA COMEÇAR NO 1
             for (int i = 1; i <= columnCount; i++) {
+                //OU PODE GUARDAR EM resultados.append(resultSet.getString(i)).append("\t"); // Adiciona o valor ao StringBuilder
+                //exemplo classe abaixo
                 System.out.print(resultSet.getMetaData().getColumnName(i) + "\t");
             }
             System.out.println();
 
             // Imprimir os resultados
+            //PARA CADA CPÇIMA, PEGA O RESULTSET.NEXT()
             while (resultSet.next()) {
                 for (int i = 1; i <= columnCount; i++) {
                     System.out.print(resultSet.getString(i) + "\t");
@@ -68,21 +75,23 @@ public class JDBC {
     //READ para consultar em ordem descresencte de ID
     public static String specifyData(String tableName) {
         String query = "SELECT * FROM " + tableName + " ORDER BY id_calculos DESC";
-        String calculosString;
-        calculosString = null;
+        StringBuilder resultados = new StringBuilder();
 
         try (Connection connection = connect(); PreparedStatement statement = connection.prepareStatement(query)) {
 
             ResultSet resultSet = statement.executeQuery();
-
+            int numeroColunas = resultSet.getMetaData().getColumnCount();
             // Verifica se há resultados e imprime os dados
-            if (resultSet.next()) {
-                calculosString = resultSet.getString("calculosString");
+            while (resultSet.next()) {
+                for (int i = 1; i<=numeroColunas;i++) {
+                    resultados.append(resultSet.getString(i)).append("\t");
+                }
+                resultados.append("\n");
             }
         } catch (SQLException e) {
             System.err.println("Erro ao consultar a tabela " + tableName + ": " + e.getMessage());
         }
-        return calculosString;
+        return resultados.toString();
     }
 
     // DELETE: Método para deletar um valor na tabela
