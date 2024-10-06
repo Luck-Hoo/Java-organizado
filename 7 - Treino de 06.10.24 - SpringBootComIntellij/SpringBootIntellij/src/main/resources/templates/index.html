@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Sidebar Navigation</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+        }
+        /* Estilo da barra lateral */
+        .sidebar {
+            height: 100%; /* Altura total */
+            width: 200px; /* Largura da barra lateral */
+            position: fixed; /* Fixa na lateral */
+            left: 0;
+            top: 0;
+            background-color: lightgreen; /* Cor da barra lateral */
+            padding-top: 20px; /* Espaçamento superior */
+        }
+        .sidebar ul {
+            list-style: none; /* Remove os marcadores da lista */
+            padding: 0; /* Remove o padding da lista */
+            margin: 0; /* Remove a margem da lista */
+        }
+        .sidebar ul li {
+            padding: 10px; /* Espaçamento interno */
+            color: black; /* Cor do texto */
+            cursor: pointer; /* Muda o cursor para indicar interatividade */
+        }
+        .sidebar ul li:hover {
+            background-color: #a8e6cf; /* Cor ao passar o mouse */
+        }
+        /* Estilo do conteúdo principal */
+        .content {
+            margin-left: 220px; /* Espaço para a barra lateral */
+            padding: 20px; /* Espaçamento interno */
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Planejamentos</a></li>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="http://localhost:8080/h2.console">Banco H2</a></li>
+    </ul>
+</div>
+<div class="content">
+    <h1>Bem-vindo à Minha Página!</h1>
+    <p>Este é o conteúdo principal da página.</p>
+</div>
+</body>
+</html>
