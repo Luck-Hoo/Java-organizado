@@ -12,6 +12,7 @@ public class Produto {
     private Long id;
     private String nome;
     private Double preco;
+    //Testando 07.10.24
     // Getters e Setters
     public Long getId() {
         return id;
