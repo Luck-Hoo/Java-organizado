@@ -13,6 +13,8 @@ public class Client {
     private String nome;
     private Double preco;
     // Testando merge
+    // Testando git
+    // Testando git
 
     // Getters e Setters
     public Long getId() {
