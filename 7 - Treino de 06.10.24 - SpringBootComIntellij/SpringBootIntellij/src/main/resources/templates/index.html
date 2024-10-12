@@ -11,33 +11,38 @@
             background-color: black;
             color: white;
         }
-        /* Estilo da barra lateral */
         .sidebar {
-            height: 100%; /* Altura total */
-            width: 200px; /* Largura da barra lateral */
-            position: fixed; /* Fixa na lateral */
+            height: 100%;
+            width: 200px;
+            position: fixed;
             left: 0;
             top: 0;
-            background-color: lightgreen; /* Cor da barra lateral */
-            padding-top: 20px; /* Espaçamento superior */
+            background-color: lightgreen;
+            padding-top: 20px;
         }
         .sidebar ul {
-            list-style: none; /* Remove os marcadores da lista */
-            padding: 0; /* Remove o padding da lista */
-            margin: 0; /* Remove a margem da lista */
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
         .sidebar ul li {
-            padding: 10px; /* Espaçamento interno */
-            color: black; /* Cor do texto */
-            cursor: pointer; /* Muda o cursor para indicar interatividade */
+            padding: 10px;
+            color: black;
+            cursor: pointer;
         }
         .sidebar ul li:hover {
-            background-color: #a8e6cf; /* Cor ao passar o mouse */
+            background-color: #a8e6cf;
         }
-        /* Estilo do conteúdo principal */
         .content {
-            margin-left: 220px; /* Espaço para a barra lateral */
-            padding: 20px; /* Espaçamento interno */
+            margin-left: 220px;
+            padding: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -53,6 +58,86 @@
 <div class="content">
     <h1>Bem-vindo à Minha Página!</h1>
     <p>Este é o conteúdo principal da página.</p>
+    
+    <h1>Clientes</h1>
+
+    <form id="clientForm">
+        <input type="text" id="clientName" placeholder="Nome" required>
+        <input type="number" id="clientPrice" placeholder="Preço" required step="0.01">
+        <button type="submit">Adicionar Cliente</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os dados dos clientes serão preenchidos aqui -->
+        </tbody>
+    </table>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        loadClients();
+
+        // Evento para envio do formulário
+        document.getElementById('clientForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const name = document.getElementById('clientName').value;
+            const price = parseFloat(document.getElementById('clientPrice').value);
+
+            // Enviar os dados para a API
+            fetch('/api/clients', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nome: name, preco: price })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao adicionar cliente');
+                }
+                return response.json();
+            })
+            .then(client => {
+                addClientToTable(client); // Adiciona o cliente na tabela
+                document.getElementById('clientForm').reset(); // Limpa o formulário
+            })
+            .catch(error => console.error(error));
+        });
+    });
+
+    function loadClients() {
+        fetch('/api/clients')
+            .then(response => response.json())
+            .then(clients => {
+                const tbody = document.querySelector('tbody');
+                tbody.innerHTML = ''; // Limpa o conteúdo existente
+
+                clients.forEach(client => {
+                    addClientToTable(client);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar clientes:', error));
+    }
+
+    function addClientToTable(client) {
+        const tbody = document.querySelector('tbody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${client.id}</td>
+            <td>${client.nome}</td>
+            <td>${client.preco}</td>
+        `;
+        tbody.appendChild(row);
+    }
+</script>
 </body>
 </html>
