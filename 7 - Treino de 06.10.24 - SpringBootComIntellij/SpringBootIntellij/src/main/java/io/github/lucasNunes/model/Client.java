@@ -12,24 +12,30 @@ public class Client {
     private Long id;
     private String nome;
     private Double preco;
+    // Testando merge
 
     // Getters e Setters
-    public Long getId(){
+    public Long getId() {
         return id;
     }
-    public void setId(Long id){
+
+    public void setId(Long id) {
         this.id = id;
     }
-    public String getNome(){
+
+    public String getNome() {
         return nome;
     }
-    public void setNome(String nome){
+
+    public void setNome(String nome) {
         this.nome = nome;
     }
-    public Double getPreco(){
+
+    public Double getPreco() {
         return preco;
     }
-    public void setPreco(Double preco){
+
+    public void setPreco(Double preco) {
         this.preco = preco;
     }
 }
