@@ -12,6 +12,7 @@ public class Client {
     private Long id;
     private String nome;
     private Double preco;
+    // Testando merge
 
     // Getters e Setters
     public Long getId() {
