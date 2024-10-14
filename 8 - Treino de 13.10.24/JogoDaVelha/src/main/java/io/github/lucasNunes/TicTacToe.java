@@ -46,8 +46,10 @@ public class TicTacToe implements ActionListener {
     // para o
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Obtém o botão que foi clicado
         JButton buttonClicked = (JButton) e.getSource();
-
+        // Se o botão já foi clicado anteriormente (não está vazio) ou o jogo já foi
+        // vencido, sai do método
         if (!buttonClicked.getText().equals("") || gameWon) {
             return;
         }
