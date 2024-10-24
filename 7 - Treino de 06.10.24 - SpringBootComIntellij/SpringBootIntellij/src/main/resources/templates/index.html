@@ -6,48 +6,53 @@
     <title>My Sidebar Navigation</title>
     <style>
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: black;
-            color: white;
-        }
-        .sidebar {
-            height: 100%;
-            width: 200px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background-color: lightgreen;
-            padding-top: 20px;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .sidebar ul li {
-            padding: 10px;
-            color: black;
-            cursor: pointer;
-        }
-        .sidebar ul li:hover {
-            background-color: #a8e6cf;
-        }
-        .content {
-            margin-left: 220px;
-            padding: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        input {
-            padding: 10px;
-            margin-right: 10px;
-        }
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+}
+
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    left: -180px; /* Escondida inicialmente */
+    top: 0;
+    background-color: lightgreen;
+    padding-top: 20px;
+    transition: left 0.3s ease;
+}
+
+.sidebar.show {
+    left: 0; /* Mostra a sidebar */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+    color: black;
+    cursor: pointer;
+}
+
+.sidebar ul li:hover {
+    background-color: #a8e6cf;
+}
+
+.content {
+    margin-left: 20px; /* Para evitar que o conteúdo fique atrás da sidebar */
+    padding: 20px;
+}
+
     </style>
 </head>
 <body>
-<div class="sidebar">
+<div class="sidebar-container" style="position: relative; width: 200px; height: 100%;">
+    <div class="sidebar" id="sidebar">
     <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">Planejamentos</a></li>
@@ -55,7 +60,8 @@
         <li><a href="http://localhost:8080/h2.console">Banco H2</a></li>
     </ul>
 </div>
-<div class="content">
+</div>
+<div class="content" id="content">
     <h1>Bem-vindo à Minha Página!</h1>
     <p>Este é o conteúdo principal da página.</p>
     
@@ -66,8 +72,8 @@
         <input type="number" id="clientPrice" placeholder="Preço" required step="0.01">
         <button type="submit">Adicionar Cliente</button>
     </form>
-
-    <table>
+    <h1>Lista de Clientes do BD</h1>
+    <table id="clientsTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -79,19 +85,44 @@
             <!-- Os dados dos clientes serão preenchidos aqui -->
         </tbody>
     </table>
+    <h1>Usuários da APi</h1>
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 </div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         loadClients();
-
+        loadUsers();
+    
+        const sidebar = document.getElementById('sidebar');
+        const sidebarContainer = document.querySelector('.sidebar-container');
+    
+        // Mostra a sidebar ao passar o mouse
+        sidebarContainer.addEventListener('mouseenter', function() {
+            sidebar.classList.add('show');
+        });
+    
+        // Esconde a sidebar ao sair do mouse
+        sidebarContainer.addEventListener('mouseleave', function() {
+            sidebar.classList.remove('show');
+        });
+    
         // Evento para envio do formulário
         document.getElementById('clientForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Impede o envio padrão do formulário
-
+    
             const name = document.getElementById('clientName').value;
             const price = parseFloat(document.getElementById('clientPrice').value);
-
+    
             // Enviar os dados para a API
             fetch('/api/clients', {
                 method: 'POST',
@@ -113,23 +144,23 @@
             .catch(error => console.error(error));
         });
     });
-
+    
     function loadClients() {
         fetch('/api/clients')
             .then(response => response.json())
             .then(clients => {
-                const tbody = document.querySelector('tbody');
+                const tbody = document.querySelector('#clientsTable tbody');
                 tbody.innerHTML = ''; // Limpa o conteúdo existente
-
+    
                 clients.forEach(client => {
                     addClientToTable(client);
                 });
             })
             .catch(error => console.error('Erro ao carregar clientes:', error));
     }
-
+    
     function addClientToTable(client) {
-        const tbody = document.querySelector('tbody');
+        const tbody = document.querySelector('#clientsTable tbody');
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${client.id}</td>
@@ -138,6 +169,27 @@
         `;
         tbody.appendChild(row);
     }
-</script>
+    
+    function loadUsers() {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(users => {
+                const tbody = document.querySelector('#usersTable tbody');
+                tbody.innerHTML = ''; // Limpa o conteúdo existente
+    
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Erro ao carregar usuários:', error));
+    }
+    </script>
+    
 </body>
 </html>
