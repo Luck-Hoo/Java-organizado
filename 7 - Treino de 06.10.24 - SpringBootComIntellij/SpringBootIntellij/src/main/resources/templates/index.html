@@ -1,195 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Sidebar Navigation</title>
     <style>
-        body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: black;
-    color: white;
-}
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: black;
+        color: white;
+      }
 
-.sidebar {
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    left: -180px; /* Escondida inicialmente */
-    top: 0;
-    background-color: lightgreen;
-    padding-top: 20px;
-    transition: left 0.3s ease;
-}
+      .sidebar {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        left: -180px; /* Escondida inicialmente */
+        top: 0;
+        background-color: lightgreen;
+        padding-top: 20px;
+        transition: left 0.3s ease;
+      }
 
-.sidebar.show {
-    left: 0; /* Mostra a sidebar */
-}
+      .sidebar.show {
+        left: 0; /* Mostra a sidebar */
+      }
 
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+      .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-.sidebar ul li {
-    padding: 10px;
-    color: black;
-    cursor: pointer;
-}
+      .sidebar ul li {
+        padding: 10px;
+        color: black;
+        cursor: pointer;
+      }
 
-.sidebar ul li:hover {
-    background-color: #a8e6cf;
-}
+      .sidebar ul li:hover {
+        background-color: #a8e6cf;
+      }
 
-.content {
-    margin-left: 20px; /* Para evitar que o conteúdo fique atrás da sidebar */
-    padding: 20px;
-}
+      .content {
+        margin-left: 20px; /* Para evitar que o conteúdo fique atrás da sidebar */
+        padding: 20px;
+      }
 
+      /* From Uiverse.io by Praashoo7 */
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-bottom: 0.4em;
+        background-color: #171717;
+        border-radius: 25px;
+        transition: 0.4s ease-in-out;
+      }
+
+      .form:hover {
+        transform: scale(1.05);
+        border: 1px solid black;
+      }
+
+      #heading {
+        text-align: center;
+        margin: 2em;
+        color: rgb(255, 255, 255);
+        font-size: 1.2em;
+      }
+
+      .field {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border-radius: 25px;
+        padding: 0.6em;
+        border: none;
+        outline: none;
+        color: white;
+        background-color: #171717;
+        box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+      }
+
+      .input-icon {
+        height: 1.3em;
+        width: 1.3em;
+        fill: white;
+      }
+
+      .input-field {
+        background: none;
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #d3d3d3;
+      }
+
+      .form .btn {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+        margin-top: 2.5em;
+      }
+
+      .button1 {
+        padding: 0.5em;
+        padding-left: 1.1em;
+        padding-right: 1.1em;
+        border-radius: 5px;
+        margin-right: 0.5em;
+        border: none;
+        outline: none;
+        transition: 0.4s ease-in-out;
+        background-color: #252525;
+        color: white;
+      }
+
+      .button1:hover {
+        background-color: black;
+        color: white;
+      }
+
+      .button2 {
+        padding: 0.5em;
+        padding-left: 2.3em;
+        padding-right: 2.3em;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: 0.4s ease-in-out;
+        background-color: #252525;
+        color: white;
+      }
+
+      .button2:hover {
+        background-color: black;
+        color: white;
+      }
+
+      .button3 {
+        margin-bottom: 3em;
+        padding: 0.5em;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: 0.4s ease-in-out;
+        background-color: #252525;
+        color: white;
+      }
+
+      .button3:hover {
+        background-color: red;
+        color: white;
+      }
+      .clientsTable {
+      }
     </style>
-</head>
-<body>
-<div class="sidebar-container" style="position: relative; width: 200px; height: 100%;">
-    <div class="sidebar" id="sidebar">
-    <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Planejamentos</a></li>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="http://localhost:8080/h2.console">Banco H2</a></li>
-    </ul>
-</div>
-</div>
-<div class="content" id="content">
-    <h1>Bem-vindo à Minha Página!</h1>
-    <p>Este é o conteúdo principal da página.</p>
-    
-    <h1>Clientes</h1>
+  </head>
+  <body>
+    <div
+      class="sidebar-container"
+      style="position: relative; width: 200px; height: 100%"
+    >
+      <div class="sidebar" id="sidebar">
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Planejamentos</a></li>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="http://localhost:8080/h2.console">Banco H2</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="content" id="content">
+      <h1>Bem-vindo à Minha Página!</h1>
+      <p>Este é o conteúdo principal da página.</p>
 
-    <form id="clientForm">
-        <input type="text" id="clientName" placeholder="Nome" required>
-        <input type="number" id="clientPrice" placeholder="Preço" required step="0.01">
-        <button type="submit">Adicionar Cliente</button>
-    </form>
-    <h1>Lista de Clientes do BD</h1>
-    <table id="clientsTable">
+      <h1>Clientes</h1>
+
+      <form class="form" id="clientForm">
+        <p id="heading">Envio para H2</p>
+        <div class="field">
+          <input
+            class="input-field"
+            type="text"
+            id="clientName"
+            placeholder="Nome"
+            required
+          />
+        </div>
+        <div class="field">
+          <input
+            class="input-field"
+            type="number"
+            id="clientPrice"
+            placeholder="Preço"
+            required
+            step="0.01"
+          />
+        </div>
+        <div class="btn">
+          <button type="submit">Adicionar Cliente</button>
+        </div>
+      </form>
+      <h1>Lista de Clientes do BD</h1>
+      <table id="clientsTable">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Preço</th>
-            </tr>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Preço</th>
+          </tr>
         </thead>
         <tbody>
-            <!-- Os dados dos clientes serão preenchidos aqui -->
+          <!-- Os dados dos clientes serão preenchidos aqui -->
         </tbody>
-    </table>
-    <h1>Usuários da APi</h1>
-    <table id="usersTable">
+      </table>
+      <h1>Usuários da APi</h1>
+      <table id="usersTable">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-            </tr>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+          </tr>
         </thead>
         <tbody></tbody>
-    </table>
-</div>
+      </table>
+    </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         loadClients();
         loadUsers();
-    
-        const sidebar = document.getElementById('sidebar');
-        const sidebarContainer = document.querySelector('.sidebar-container');
-    
+
+        const sidebar = document.getElementById("sidebar");
+        const sidebarContainer = document.querySelector(".sidebar-container");
+
         // Mostra a sidebar ao passar o mouse
-        sidebarContainer.addEventListener('mouseenter', function() {
-            sidebar.classList.add('show');
+        sidebarContainer.addEventListener("mouseenter", function () {
+          sidebar.classList.add("show");
         });
-    
+
         // Esconde a sidebar ao sair do mouse
-        sidebarContainer.addEventListener('mouseleave', function() {
-            sidebar.classList.remove('show');
+        sidebarContainer.addEventListener("mouseleave", function () {
+          sidebar.classList.remove("show");
         });
-    
+
         // Evento para envio do formulário
-        document.getElementById('clientForm').addEventListener('submit', function(event) {
+        document
+          .getElementById("clientForm")
+          .addEventListener("submit", function (event) {
             event.preventDefault(); // Impede o envio padrão do formulário
-    
-            const name = document.getElementById('clientName').value;
-            const price = parseFloat(document.getElementById('clientPrice').value);
-    
+
+            const name = document.getElementById("clientName").value;
+            const price = parseFloat(
+              document.getElementById("clientPrice").value
+            );
+
             // Enviar os dados para a API
-            fetch('/api/clients', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ nome: name, preco: price })
+            fetch("/api/clients", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ nome: name, preco: price }),
             })
-            .then(response => {
+              .then((response) => {
                 if (!response.ok) {
-                    throw new Error('Erro ao adicionar cliente');
+                  throw new Error("Erro ao adicionar cliente");
                 }
                 return response.json();
-            })
-            .then(client => {
+              })
+              .then((client) => {
                 addClientToTable(client); // Adiciona o cliente na tabela
-                document.getElementById('clientForm').reset(); // Limpa o formulário
-            })
-            .catch(error => console.error(error));
-        });
-    });
-    
-    function loadClients() {
-        fetch('/api/clients')
-            .then(response => response.json())
-            .then(clients => {
-                const tbody = document.querySelector('#clientsTable tbody');
-                tbody.innerHTML = ''; // Limpa o conteúdo existente
-    
-                clients.forEach(client => {
-                    addClientToTable(client);
-                });
-            })
-            .catch(error => console.error('Erro ao carregar clientes:', error));
-    }
-    
-    function addClientToTable(client) {
-        const tbody = document.querySelector('#clientsTable tbody');
-        const row = document.createElement('tr');
+                document.getElementById("clientForm").reset(); // Limpa o formulário
+              })
+              .catch((error) => console.error(error));
+          });
+      });
+
+      function loadClients() {
+        fetch("/api/clients")
+          .then((response) => response.json())
+          .then((clients) => {
+            const tbody = document.querySelector("#clientsTable tbody");
+            tbody.innerHTML = ""; // Limpa o conteúdo existente
+
+            clients.forEach((client) => {
+              addClientToTable(client);
+            });
+          })
+          .catch((error) => console.error("Erro ao carregar clientes:", error));
+      }
+
+      function addClientToTable(client) {
+        const tbody = document.querySelector("#clientsTable tbody");
+        const row = document.createElement("tr");
         row.innerHTML = `
             <td>${client.id}</td>
             <td>${client.nome}</td>
             <td>${client.preco}</td>
         `;
         tbody.appendChild(row);
-    }
-    
-    function loadUsers() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response => response.json())
-            .then(users => {
-                const tbody = document.querySelector('#usersTable tbody');
-                tbody.innerHTML = ''; // Limpa o conteúdo existente
-    
-                users.forEach(user => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
+      }
+
+      function loadUsers() {
+        fetch("https://jsonplaceholder.typicode.com/users")
+          .then((response) => response.json())
+          .then((users) => {
+            const tbody = document.querySelector("#usersTable tbody");
+            tbody.innerHTML = ""; // Limpa o conteúdo existente
+
+            users.forEach((user) => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
                         <td>${user.id}</td>
                         <td>${user.name}</td>
                         <td>${user.email}</td>
                     `;
-                    tbody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Erro ao carregar usuários:', error));
-    }
+              tbody.appendChild(row);
+            });
+          })
+          .catch((error) => console.error("Erro ao carregar usuários:", error));
+      }
     </script>
-    
-</body>
+  </body>
 </html>
